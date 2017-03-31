@@ -27,7 +27,7 @@ public class Client {
 			e.printStackTrace();
 		}
 		 
-		dbn = JOptionPane.showInputDialog("Please Input the Name of your DataBase in MySql!");
+		dbn = JOptionPane.showInputDialog("Please Input the Name of your DataBase in MySql:");
 		if (value.btnValue) {
 			GradeManager frame = new GradeManager();
 			frame.setVisible(true);					

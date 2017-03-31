@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.net.MalformedURLException;
 import java.rmi.*;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,6 +21,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JComboBox;
 
 public class GradeManager extends JFrame {
 
@@ -32,7 +34,6 @@ public class GradeManager extends JFrame {
 	private JTextField TableNameTextField;
 	private JTextField SIDTextField;
 	private JTextField SnameTextField;
-	private JList Tableslist2;
 	private JLabel lblTables2;
 	private JLabel lblStudentId2;
 	private JButton btnQueryIt;
@@ -41,13 +42,17 @@ public class GradeManager extends JFrame {
 	private JSeparator AddSeparator;
 	private JLabel lblStudentId;
 	private JLabel lblStudentName;
-	private JList TablesList;
 	private JLabel lblTables;
 	private JSeparator CreateTableSeparator;
 	private JButton CreateTableButton;
 	private JLabel TableNameLabel;
 	private JTextField SIDTextField2;
-
+	private JComboBox<String> TablescomboBox;
+	private JComboBox<String> TablescomboBox2;
+	private ArrayList<String> Tables = null;
+	private JButton btnFresh;
+	private JTextField GradeTextField;
+	private JLabel lblGrade;
 	/**
 	 * Launch the application.
 	 */
@@ -69,12 +74,6 @@ public class GradeManager extends JFrame {
 	 */
 	public GradeManager() {
 		setTitle("Grade Manager");
-//		try {
-//			ds = new DataServiceImpl();
-//		} catch (RemoteException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 682);
 		contentPane = new JPanel();
@@ -95,14 +94,19 @@ public class GradeManager extends JFrame {
 		CreateTableButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String TableName = TableNameTextField.getText();
-				if (TableName.equals(""))
+				if (TableName.equals("")) {
 					JOptionPane.showMessageDialog(null, "Table Name Can't be Null!");
-				try {
-					ds.createTable(TableName);
-				} catch (RemoteException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				} else {
+					try {
+						if(ds.createTable(TableName)) {
+							JOptionPane.showMessageDialog(null, "Table Creation Success");
+						}
+						Tables = ds.showTables();
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}					
 			}
 		});
 		CreateTableButton.setBounds(149, 88, 136, 23);
@@ -116,10 +120,6 @@ public class GradeManager extends JFrame {
 		lblTables.setBounds(133, 172, 54, 24);
 		contentPane.add(lblTables);
 		
-		TablesList = new JList();
-		TablesList.setBounds(203, 177, 112, 19);
-		contentPane.add(TablesList);
-		
 		lblStudentId = new JLabel("Student ID:");
 		lblStudentId.setBounds(115, 227, 72, 24);
 		contentPane.add(lblStudentId);
@@ -127,13 +127,27 @@ public class GradeManager extends JFrame {
 		btnAddIt = new JButton("Add It!");
 		btnAddIt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String tn = (String)TablescomboBox.getSelectedItem();
+				String sid = SIDTextField.getText();
+				String sn = SnameTextField.getText();
+				String tg = GradeTextField.getText();
+				int g = Integer.parseInt(tg);
+				
+				try {
+					if(ds.addGrade(tn, sn, sid, g)) {
+						JOptionPane.showMessageDialog(null, "Grade Add Success");
+					}
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
-		btnAddIt.setBounds(149, 338, 136, 23);
+		btnAddIt.setBounds(149, 387, 136, 23);
 		contentPane.add(btnAddIt);
 		
 		AddSeparator = new JSeparator();
-		AddSeparator.setBounds(10, 142, 414, 240);
+		AddSeparator.setBounds(10, 142, 414, 275);
 		contentPane.add(AddSeparator);
 		
 		SIDTextField = new JTextField();
@@ -151,31 +165,50 @@ public class GradeManager extends JFrame {
 		SnameTextField.setColumns(10);
 		
 		lblTables2 = new JLabel("Tables:");
-		lblTables2.setBounds(133, 422, 54, 21);
+		lblTables2.setBounds(133, 435, 54, 21);
 		contentPane.add(lblTables2);
-		
-		Tableslist2 = new JList();
-		Tableslist2.setBounds(203, 422, 112, 21);
-		contentPane.add(Tableslist2);
 		
 		lblStudentId2 = new JLabel("Student ID:");
 		lblStudentId2.setBounds(115, 486, 72, 24);
 		contentPane.add(lblStudentId2);
 		
 		btnQueryIt = new JButton("Query It!");
+		btnQueryIt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String tn = (String)TablescomboBox2.getSelectedItem();
+				String id = SIDTextField2.getText();
+				try {
+					int g = ds.queryGrade(tn, id);
+					JOptionPane.showMessageDialog(null, "The Grade is " + g + "!");
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnQueryIt.setBounds(149, 553, 136, 23);
 		contentPane.add(btnQueryIt);
 		
 		QuerySeparator = new JSeparator();
-		QuerySeparator.setBounds(10, 392, 414, 199);
+		QuerySeparator.setBounds(10, 420, 414, 171);
 		contentPane.add(QuerySeparator);
 		
 		JButton btnExit = new JButton("Exit");
-		btnExit.setBounds(82, 611, 93, 23);
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Exit();
+			}
+		});
+		btnExit.setBounds(38, 611, 93, 23);
 		contentPane.add(btnExit);
 		
 		JButton btnHelp = new JButton("Help");
-		btnHelp.setBounds(257, 611, 93, 23);
+		btnHelp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Are you pig?");
+			}
+		});
+		btnHelp.setBounds(300, 611, 93, 23);
 		contentPane.add(btnHelp);
 		
 		JSeparator separator_1 = new JSeparator();
@@ -186,6 +219,36 @@ public class GradeManager extends JFrame {
 		SIDTextField2.setBounds(207, 488, 108, 21);
 		contentPane.add(SIDTextField2);
 		SIDTextField2.setColumns(10);
+		//String [] tempTables = null;
+		//tempTables = (Tables.toArray(new String[Tables.size()]));
+		TablescomboBox = new JComboBox<String>();
+		TablescomboBox.setBounds(204, 174, 112, 21);
+		contentPane.add(TablescomboBox);
+		
+		TablescomboBox2 = new JComboBox<String>();
+		TablescomboBox2.setBounds(207, 435, 108, 21);
+		contentPane.add(TablescomboBox2);
+		
+		btnFresh = new JButton("Fresh");
+		btnFresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < Tables.size(); i++) {
+					TablescomboBox.addItem(Tables.get(i));
+					TablescomboBox2.addItem(Tables.get(i));
+				}	
+			}
+		});
+		btnFresh.setBounds(169, 611, 93, 23);
+		contentPane.add(btnFresh);
+		
+		lblGrade = new JLabel("Grade:");
+		lblGrade.setBounds(141, 341, 44, 24);
+		contentPane.add(lblGrade);
+		
+		GradeTextField = new JTextField();
+		GradeTextField.setBounds(203, 343, 112, 21);
+		contentPane.add(GradeTextField);
+		GradeTextField.setColumns(10);
 	}
 	
 	public void setDs(String u, String p, String d) {
@@ -211,5 +274,9 @@ public class GradeManager extends JFrame {
 		}
 		
 		
+	}
+	public void Exit() {
+		this.setVisible(false);
+		this.dispose();
 	}
 }
