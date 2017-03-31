@@ -31,7 +31,6 @@ public class GradeManager extends JFrame {
 	private JTextField SIDTextField;
 	private JTextField SnameTextField;
 	private JList Tableslist2;
-	private JList SIDList;
 	private JLabel lblTables2;
 	private JLabel lblStudentId2;
 	private JButton btnQueryIt;
@@ -45,6 +44,7 @@ public class GradeManager extends JFrame {
 	private JSeparator CreateTableSeparator;
 	private JButton CreateTableButton;
 	private JLabel TableNameLabel;
+	private JTextField SIDTextField2;
 
 	/**
 	 * Launch the application.
@@ -158,10 +158,6 @@ public class GradeManager extends JFrame {
 		lblStudentId2.setBounds(115, 486, 72, 24);
 		contentPane.add(lblStudentId2);
 		
-		SIDList = new JList();
-		SIDList.setBounds(203, 486, 112, 24);
-		contentPane.add(SIDList);
-		
 		btnQueryIt = new JButton("Query It!");
 		btnQueryIt.setBounds(149, 553, 136, 23);
 		contentPane.add(btnQueryIt);
@@ -181,6 +177,11 @@ public class GradeManager extends JFrame {
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setBounds(10, 601, 414, 42);
 		contentPane.add(separator_1);
+		
+		SIDTextField2 = new JTextField();
+		SIDTextField2.setBounds(207, 488, 108, 21);
+		contentPane.add(SIDTextField2);
+		SIDTextField2.setColumns(10);
 	}
 	
 	public void setDs(String u, String p, String d) {
