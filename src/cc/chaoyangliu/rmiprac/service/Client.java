@@ -33,7 +33,6 @@ public class Client {
 			frame.setVisible(true);					
 			frame.setDs(value.usr, value.pwd, dbn);
 		}
-		
 	}
 
 }

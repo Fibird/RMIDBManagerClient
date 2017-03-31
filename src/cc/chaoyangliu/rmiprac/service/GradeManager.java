@@ -73,6 +73,7 @@ public class GradeManager extends JFrame {
 	 * Create the frame.
 	 */
 	public GradeManager() {
+		setResizable(false);
 		setTitle("Grade Manager");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 682);
@@ -156,7 +157,7 @@ public class GradeManager extends JFrame {
 		SIDTextField.setColumns(10);
 		
 		lblStudentName = new JLabel("Student Name:");
-		lblStudentName.setBounds(109, 286, 78, 24);
+		lblStudentName.setBounds(94, 286, 93, 24);
 		contentPane.add(lblStudentName);
 		
 		SnameTextField = new JTextField();
@@ -179,7 +180,11 @@ public class GradeManager extends JFrame {
 				String id = SIDTextField2.getText();
 				try {
 					int g = ds.queryGrade(tn, id);
-					JOptionPane.showMessageDialog(null, "The Grade is " + g + "!");
+					if (g != 0) {
+						JOptionPane.showMessageDialog(null, "The Grade is " + g + "!");
+					} else {
+						JOptionPane.showMessageDialog(null, "No This Student!");
+					}		
 				} catch (RemoteException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

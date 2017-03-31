@@ -100,7 +100,7 @@ public class Login extends JDialog {
 			textField.setColumns(10);
 			
 			lblPassword = new JLabel("password:");
-			lblPassword.setBounds(51, 105, 54, 23);
+			lblPassword.setBounds(39, 105, 66, 23);
 			panel.add(lblPassword);
 			
 			passwordField = new JPasswordField();
