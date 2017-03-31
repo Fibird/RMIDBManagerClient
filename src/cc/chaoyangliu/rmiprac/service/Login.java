@@ -31,19 +31,17 @@ public class Login extends JDialog {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		ReturnValues value = new ReturnValues();
-//		Login dialog = new Login();
-//		try {
-//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-//			dialog.setModal(true);
-//			value = dialog.showDialog();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//		System.out.println(value.btnValue);
-//	}
+	public static void main(String[] args) {
+		ReturnValues value = new ReturnValues();
+		Login dialog = new Login();
+		try {
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setModal(true);
+			value = dialog.showDialog();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Create the dialog.
@@ -62,7 +60,9 @@ public class Login extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						rtV.usr = textField.getText();
-						rtV.pwd = passwordField.getPassword().toString();
+						char [] temp = passwordField.getPassword();
+						rtV.pwd = String.valueOf(temp);
+						
 						rtV.btnValue = true;
 						setVisible(false);
 						dispose();

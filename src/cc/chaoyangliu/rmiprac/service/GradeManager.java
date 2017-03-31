@@ -16,6 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -93,6 +95,8 @@ public class GradeManager extends JFrame {
 		CreateTableButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String TableName = TableNameTextField.getText();
+				if (TableName.equals(""))
+					JOptionPane.showMessageDialog(null, "Table Name Can't be Null!");
 				try {
 					ds.createTable(TableName);
 				} catch (RemoteException e1) {
@@ -199,12 +203,12 @@ public class GradeManager extends JFrame {
 			e.printStackTrace();
 		}
 		
-//		try {
-//			ds.connDataBase(u, p, d);
-//		} catch (RemoteException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			ds.connDataBase(u, p, d);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 	}
