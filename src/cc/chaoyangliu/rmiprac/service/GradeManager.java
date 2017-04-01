@@ -254,6 +254,8 @@ public class GradeManager extends JFrame {
 		btnFresh = new JButton("Fresh");
 		btnFresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				TablescomboBox.removeAllItems();
+				TablescomboBox2.removeAllItems();
 				for (int i = 0; i < Tables.size(); i++) {
 					TablescomboBox.addItem(Tables.get(i));
 					TablescomboBox2.addItem(Tables.get(i));
