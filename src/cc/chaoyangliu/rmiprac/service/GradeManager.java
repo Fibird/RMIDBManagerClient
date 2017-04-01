@@ -287,11 +287,17 @@ public class GradeManager extends JFrame {
 	
 	public void setDs(String u, String p, String d) {
 		String url = cfg.getProperty("url");
+		String tp = cfg.getProperty("port");
+		
 		if (url == null) {
 			url = "localhost";
 		}
+		if (tp == null) {
+			tp = "1235";
+		}
+		int port = Integer.parseInt(tp);
 		try {
-			ds = (DataService) Naming.lookup("//"+ url + ":1235/ds");
+			ds = (DataService) Naming.lookup("//" + url + ":" + port + "/ds");
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
