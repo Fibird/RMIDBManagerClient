@@ -52,6 +52,7 @@ public class GradeManager extends JFrame {
 	private JButton btnFresh;
 	private JTextField GradeTextField;
 	private JLabel lblGrade;
+	private Config cfg;
 	/**
 	 * Launch the application.
 	 */
@@ -73,6 +74,7 @@ public class GradeManager extends JFrame {
 	 */
 	public GradeManager() {
 		Tables = new ArrayList<String>();
+		cfg = new Config("config/config.properties");
 		setResizable(false);
 		setTitle("Grade Manager");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -284,9 +286,9 @@ public class GradeManager extends JFrame {
 	}
 	
 	public void setDs(String u, String p, String d) {
-		
+		String url = cfg.getProperty("url");
 		try {
-			ds = (DataService) Naming.lookup("//localhost:1235/ds");
+			ds = (DataService) Naming.lookup("//"+ url + ":1235/ds");
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
