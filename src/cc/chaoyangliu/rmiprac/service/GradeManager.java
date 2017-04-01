@@ -48,7 +48,7 @@ public class GradeManager extends JFrame {
 	private JTextField SIDTextField2;
 	private JComboBox<String> TablescomboBox;
 	private JComboBox<String> TablescomboBox2;
-	private ArrayList<String> Tables = null;
+	private ArrayList<String> Tables;
 	private JButton btnFresh;
 	private JTextField GradeTextField;
 	private JLabel lblGrade;
@@ -72,6 +72,7 @@ public class GradeManager extends JFrame {
 	 * Create the frame.
 	 */
 	public GradeManager() {
+		Tables = new ArrayList<String>();
 		setResizable(false);
 		setTitle("Grade Manager");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -115,7 +116,6 @@ public class GradeManager extends JFrame {
 						if(ds.createTable(TableName)) {
 							JOptionPane.showMessageDialog(null, "Table Creation Success");
 						}
-						Tables = ds.showTables();
 					} catch (RemoteException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -266,14 +266,10 @@ public class GradeManager extends JFrame {
 		btnFresh = new JButton("Fresh");
 		btnFresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				TablescomboBox.removeAllItems();
-				TablescomboBox2.removeAllItems();
-				for (int i = 0; i < Tables.size(); i++) {
-					TablescomboBox.addItem(Tables.get(i));
-					TablescomboBox2.addItem(Tables.get(i));
-				}	
+				updateComboxes();
 			}
 		});
+		
 		btnFresh.setBounds(169, 611, 93, 23);
 		contentPane.add(btnFresh);
 		
@@ -309,7 +305,22 @@ public class GradeManager extends JFrame {
 			e.printStackTrace();
 		}
 		
-		
+		updateComboxes();
+	}
+	public void updateComboxes() {
+		ArrayList<String> ts = new ArrayList<String>();
+		try {
+			ts = ds.showTables();
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		TablescomboBox.removeAllItems();
+		TablescomboBox2.removeAllItems();
+		for (int i = 0; i < ts.size(); i++) {
+			TablescomboBox.addItem(ts.get(i));
+			TablescomboBox2.addItem(ts.get(i));
+		}
 	}
 	public void Exit() {
 		this.setVisible(false);
