@@ -1,4 +1,4 @@
-# RMIDBManagerClient
+# Overview
 
 A example app using RMI & JDBC to operate remote database. You can finish basic operations for database. This is Client Side, and you must need a servr side in this [repository](https://github.com/Sunlcy/RMIDBManagerServer). 
 
