@@ -2,6 +2,7 @@ package cc.chaoyangliu.rmiprac.service;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.HeadlessException;
 import java.net.MalformedURLException;
 import java.rmi.*;
 import java.util.ArrayList;
@@ -96,7 +97,7 @@ public class GradeManager extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String TableName = TableNameTextField.getText();
 				if (TableName.equals("")) {
-					JOptionPane.showMessageDialog(null, "Table Name Can't be Null!");
+					JOptionPane.showMessageDialog(null, "Table name can't be null!");
 				} else {
 					try {
 						if(ds.createTable(TableName)) {
@@ -132,16 +133,27 @@ public class GradeManager extends JFrame {
 				String sid = SIDTextField.getText();
 				String sn = SnameTextField.getText();
 				String tg = GradeTextField.getText();
-				int g = Integer.parseInt(tg);
 				
-				try {
-					if(ds.addGrade(tn, sn, sid, g)) {
-						JOptionPane.showMessageDialog(null, "Grade Add Success");
+				if (sid.equals("")) {
+					JOptionPane.showMessageDialog(null, "Student ID can't be null!");
+				} else if (sn.equals("")) {
+					JOptionPane.showMessageDialog(null, "Student name can't be null!");
+				} else if (tg.equals("")) {
+					JOptionPane.showMessageDialog(null, "Grade can't be null!");
+				} else {
+					int g = Integer.parseInt(tg);
+					try {
+						if(ds.addGrade(tn, sn, sid, g)) {
+							JOptionPane.showMessageDialog(null, "Grade Add Success");
+						}
+					} catch (HeadlessException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-				} catch (RemoteException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				}	
 			}
 		});
 		btnAddIt.setBounds(149, 387, 136, 23);
@@ -178,17 +190,22 @@ public class GradeManager extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String tn = (String)TablescomboBox2.getSelectedItem();
 				String id = SIDTextField2.getText();
-				try {
-					int g = ds.queryGrade(tn, id);
-					if (g != 0) {
-						JOptionPane.showMessageDialog(null, "The Grade is " + g + "!");
-					} else {
-						JOptionPane.showMessageDialog(null, "No This Student!");
-					}		
-				} catch (RemoteException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if (id.equals("")) {
+					JOptionPane.showMessageDialog(null, "Student ID can't be null!");
+				} else {
+					try {
+						int g = ds.queryGrade(tn, id);
+						if (g != 0) {
+							JOptionPane.showMessageDialog(null, "The Grade is " + g + "!");
+						} else {
+							JOptionPane.showMessageDialog(null, "No This Student!");
+						}		
+					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
+				
 			}
 		});
 		btnQueryIt.setBounds(149, 553, 136, 23);
