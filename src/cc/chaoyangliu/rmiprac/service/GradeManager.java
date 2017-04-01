@@ -11,8 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-//import cc.chaoyangliu.rmiprac.service.DataService;
-//import cc.chaoyangliu.rmiprac.service.DataServiceImpl;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -96,8 +94,22 @@ public class GradeManager extends JFrame {
 		CreateTableButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String TableName = TableNameTextField.getText();
+				Boolean isRepeated = false;
+				ArrayList<String> ts = null;
+				try {
+					ts = ds.showTables();
+				} catch (RemoteException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				for (int i = 0; i < ts.size(); i++) {
+					if (TableName.equals(ts.get(i)))
+						isRepeated = true;
+				}
 				if (TableName.equals("")) {
 					JOptionPane.showMessageDialog(null, "Table name can't be null!");
+				} else if (isRepeated) {
+					JOptionPane.showMessageDialog(null, "Table '" + TableName + "' already exists!");
 				} else {
 					try {
 						if(ds.createTable(TableName)) {
