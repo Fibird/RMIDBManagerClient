@@ -287,6 +287,9 @@ public class GradeManager extends JFrame {
 	
 	public void setDs(String u, String p, String d) {
 		String url = cfg.getProperty("url");
+		if (url == null) {
+			url = "localhost";
+		}
 		try {
 			ds = (DataService) Naming.lookup("//"+ url + ":1235/ds");
 		} catch (MalformedURLException e) {
