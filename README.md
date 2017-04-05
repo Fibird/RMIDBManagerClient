@@ -1,6 +1,8 @@
+[![Project Status: Inactive - The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
+
 # Overview
 
-A example app using RMI & JDBC to operate remote database. You can finish basic operations for database. This is Client Side, and you must need a servr side in this [repository](https://github.com/Sunlcy/RMIDBManagerServer). 
+A example app using RMI & JDBC to operate remote database. You can complete basic operations for database. This is Client Side, and you must need a servr side in this [repository](https://github.com/Sunlcy/RMIDBManagerServer). 
 
 # Run
 
